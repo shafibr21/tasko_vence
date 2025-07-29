@@ -18,7 +18,8 @@ const SignupForm = ({ onSignup, onSwitchToLogin }) => {
       alert("Passwords don't match");
       return;
     }
-    onSignup(form); // handle signup via parent or context
+    console.log("Signup data:", form);
+    onSignup({name: form.name, email: form.email, password: form.password}); // handle signup via parent or context
   };
 
   return (

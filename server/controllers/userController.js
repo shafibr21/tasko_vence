@@ -24,7 +24,16 @@ const loginUser = async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (isMatch) {
       const token = createToken(user._id);
-      return res.json({ success: true, token });
+      return res.json({ 
+        success: true, 
+        message: "Login successful",
+        token: token, // Return token in response
+        user: {
+          id: user._id,
+          name: user.name,
+          email: user.email,
+        }
+      });
     } else {
       return res
         .status(401)
@@ -86,6 +95,7 @@ const registerUser = async (req, res) => {
 
     // Generate a token and send the response
     const token = createToken(user._id);
+    
     return res.status(201).json({
       success: true,
       message: "User registered successfully",
@@ -105,4 +115,28 @@ const registerUser = async (req, res) => {
   }
 };
 
-export { loginUser, registerUser};
+const authMe = async (req, res) => {
+  try {
+    return res.status(200).json({
+      success: true,
+      user: {
+        id: req.user._id,
+        name: req.user.name,
+        email: req.user.email,
+      },
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Failed to get user info",
+    });
+  }
+};
+
+
+const logoutUser = (req, res) => {
+  res.clearCookie('token');
+  res.json({ success: true, message: "Logged out successfully" });
+};
+
+export { loginUser, registerUser, logoutUser, authMe };

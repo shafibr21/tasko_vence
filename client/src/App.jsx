@@ -5,6 +5,8 @@ import DashBoard from "./pages/DashBoard";
 import LoginPage from "./pages/LoginPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import NotFound from "./pages/NotFound";
+import ProfilePage from "./pages/ProfilePage";
+import TaskModal from "./components/TaskModal";
 
 function App() {
   return (
@@ -25,6 +27,22 @@ function App() {
             element={
               <ProtectedRoute>
                 <DashBoard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <ProfilePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/task/:taskId"
+            element={
+              <ProtectedRoute>
+                <TaskModal />
               </ProtectedRoute>
             }
           />

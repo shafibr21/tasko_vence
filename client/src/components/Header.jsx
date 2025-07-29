@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import loginImage from "../assets/login.svg";
 import navlogo from "../assets/nav_logo.svg";
 import { useAuth } from "../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const { user, logout } = useAuth();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
+  const navigate = useNavigate();
   const handleLogout = async () => {
     await logout();
     setIsDropdownOpen(false); // Close dropdown after logout
@@ -14,7 +15,7 @@ const Header = () => {
 
   const handleViewProfile = () => {
     // Add your view profile logic here
-    console.log("View Profile clicked");
+    navigate("/profile");
     setIsDropdownOpen(false); // Close dropdown after clicking
   };
 
@@ -48,7 +49,7 @@ const Header = () => {
             <img
               src={loginImage}
               alt="Login Illustration"
-              className="w-100 h-auto relative z-10 translate-y-5 opacity-60 translate-x-10"
+              className="w-100 h-auto relative translate-y-5 opacity-60 translate-x-10"
             />
           </div>
         </div>
@@ -118,7 +119,7 @@ const Header = () => {
         </div>
 
         {/* Welcome text - positioned absolutely */}
-        <div className="absolute bottom-8 left-8 z-30 mx-10">
+        <div className="absolute bottom-18 left-8 z-30 mx-10">
           <p className="text-teal-400 text-3xl font-bold">Hi {user?.name || 'User'}</p>
           <h1 className="text-white text-5xl font-bold">Welcome to Dashboard</h1>
         </div>

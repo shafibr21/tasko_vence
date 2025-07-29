@@ -6,6 +6,7 @@ import { connect } from "mongoose";
 import connectDB from "./config/mongodb.js";
 // import connectCLoudinary from "./config/cloudinary.js"; // Commented out since not using cloudinary
 import userRouter from "./routes/userRoute.js";
+import taskRouter from "./routes/taskRoute.js";
 
 const frontend = process.env.FRONTEND_URL;
 //App Config
@@ -25,6 +26,7 @@ app.use(
 app.use(cookieParser());
 // api endpoints
 app.use("/api/user", userRouter);
+app.use("/api/task", taskRouter);
 
 app.get("/", (req, res) => {
   res.send("API Working 404");

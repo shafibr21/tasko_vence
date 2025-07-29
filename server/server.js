@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import "dotenv/config";
 import { connect } from "mongoose";
 import connectDB from "./config/mongodb.js";
@@ -21,7 +22,7 @@ app.use(
     credentials: true, // Allow credentials (cookies, authorization headers, etc.)
   })
 );
-
+app.use(cookieParser());
 // api endpoints
 app.use("/api/user", userRouter);
 

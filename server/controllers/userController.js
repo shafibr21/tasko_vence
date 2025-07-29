@@ -24,10 +24,16 @@ const loginUser = async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (isMatch) {
       const token = createToken(user._id);
+      // Set token in HTTP-only cookie
+      res.cookie("token", token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "Lax",
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      });
       return res.json({ 
         success: true, 
         message: "Login successful",
-        token: token, // Return token in response
         user: {
           id: user._id,
           name: user.name,
@@ -96,6 +102,14 @@ const registerUser = async (req, res) => {
     // Generate a token and send the response
     const token = createToken(user._id);
     
+    // Set token in HTTP-only cookie
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "Lax",
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    });
+    
     return res.status(201).json({
       success: true,
       message: "User registered successfully",
@@ -135,8 +149,12 @@ const authMe = async (req, res) => {
 
 
 const logoutUser = (req, res) => {
-  res.clearCookie('token');
-  res.json({ success: true, message: "Logged out successfully" });
+  res.clearCookie('token', {
+    httpOnly: true,
+    sameSite: 'Lax',
+    secure: process.env.NODE_ENV === 'production',
+  });
+  res.json({ success: true, message: 'Logged out successfully' });
 };
 
 export { loginUser, registerUser, logoutUser, authMe };

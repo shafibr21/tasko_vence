@@ -8,7 +8,7 @@ export const TaskContext = createContext();
 export const TaskProvider = ({ children }) => {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(false);
-  const backendUrl = "https://tasko-vence.vercel.app";
+  const backendUrl = "https://taskovenceserver-production.up.railway.app";
 
   // Fetch all tasks on load
   const fetchTasks = async () => {

@@ -8,7 +8,6 @@ const createToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "3d" }); // Optional expiry time
 };
 
-
 // Route for user login
 const loginUser = async (req, res) => {
   try {
@@ -27,18 +26,18 @@ const loginUser = async (req, res) => {
       // Set token in HTTP-only cookie
       res.cookie("token", token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "Lax",
+        secure: true,
+        sameSite: "None",
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
       });
-      return res.json({ 
-        success: true, 
+      return res.json({
+        success: true,
         message: "Login successful",
         user: {
           id: user._id,
           name: user.name,
           email: user.email,
-        }
+        },
       });
     } else {
       return res
@@ -54,7 +53,6 @@ const loginUser = async (req, res) => {
     });
   }
 };
-
 
 // Route for user registration
 const registerUser = async (req, res) => {
@@ -101,15 +99,15 @@ const registerUser = async (req, res) => {
 
     // Generate a token and send the response
     const token = createToken(user._id);
-    
+
     // Set token in HTTP-only cookie
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "Lax",
+      secure: true,
+      sameSite: "None",
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
-    
+
     return res.status(201).json({
       success: true,
       message: "User registered successfully",
@@ -147,14 +145,13 @@ const authMe = async (req, res) => {
   }
 };
 
-
 const logoutUser = (req, res) => {
-  res.clearCookie('token', {
+  res.clearCookie("token", {
     httpOnly: true,
-    sameSite: 'Lax',
-    secure: process.env.NODE_ENV === 'production',
+    sameSite: "Lax",
+    secure: process.env.NODE_ENV === "production",
   });
-  res.json({ success: true, message: 'Logged out successfully' });
+  res.json({ success: true, message: "Logged out successfully" });
 };
 
 export { loginUser, registerUser, logoutUser, authMe };

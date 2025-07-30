@@ -14,7 +14,6 @@ export const AuthProvider = ({ children }) => {
   // Fetch user on app load
   useEffect(() => {
     const checkAuth = async () => {
-      
       try {
         const res = await axios.get(backendUrl + "/api/user/auth/me");
         setUser(res.data.user);

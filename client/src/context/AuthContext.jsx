@@ -9,7 +9,7 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [authLoading, setAuthLoading] = useState(true);
-  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+  const backendUrl = "https://tasko-vence.vercel.app/api";
 
   // Fetch user on app load
   useEffect(() => {

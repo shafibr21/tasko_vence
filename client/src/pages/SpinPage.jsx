@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MdCheckBox, MdCheckBoxOutlineBlank } from "react-icons/md";
 import Header from "../components/Header";
+import spinnerIcon from "../assets/spinner.svg";
 
 const wheelSegments = [
   { label: "Arts and Craft", color: "#F59E42" },
@@ -17,7 +18,6 @@ const SpinPage = () => {
   const [isSpinning, setIsSpinning] = useState(false);
   const [rotation, setRotation] = useState(0);
   const [result, setResult] = useState(null);
-  // Category dropdown state
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState("");
   const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
@@ -35,8 +35,8 @@ const SpinPage = () => {
 
     setTimeout(() => {
       setIsSpinning(false);
-      // Calculate which segment is at the top (0deg)
-      const normalized = (360 - (totalRotation % 360)) % 360;
+      // Pointer is at 180deg (bottom), so use 540 instead of 360
+      const normalized = (540 - (totalRotation % 360)) % 360;
       const degreesPerSlice = 360 / wheelSegments.length;
       const index =
         Math.floor((normalized + degreesPerSlice / 2) / degreesPerSlice) %
@@ -47,9 +47,9 @@ const SpinPage = () => {
 
   // SVG wheel rendering
   const renderWheel = () => {
-    const size = 320;
+    const size = 500;
     const center = size / 2;
-    const radius = 140;
+    const radius = 210;
     const degreesPerSlice = 360 / wheelSegments.length;
 
     return (
@@ -70,8 +70,8 @@ const SpinPage = () => {
           const y2 = center + radius * Math.sin((Math.PI * endAngle) / 180);
 
           const textAngle = ((startAngle + endAngle) / 2) * (Math.PI / 180);
-          const textX = center + 100 * Math.cos(textAngle);
-          const textY = center + 100 * Math.sin(textAngle);
+          const textX = center + 155 * Math.cos(textAngle);
+          const textY = center + 155 * Math.sin(textAngle);
 
           return (
             <g key={segment.label}>
@@ -84,8 +84,8 @@ const SpinPage = () => {
               <text
                 x={textX}
                 y={textY}
-                fill="white"
-                fontSize="16"
+                fill="black"
+                fontSize="18"
                 fontWeight="600"
                 textAnchor="middle"
                 dominantBaseline="middle"
@@ -109,17 +109,26 @@ const SpinPage = () => {
           stroke="#e5e7eb"
           strokeWidth="2"
         />
+        <circle
+          cx={center}
+          cy={center}
+          r={225}
+          fill="none"
+          stroke="#CE3816 "
+          strokeWidth="13"
+          style={{ filter: "drop-shadow(0 2px 8px #0002)" }}
+        />
         {/* Dots around the wheel */}
         {Array.from({ length: 14 }).map((_, i) => {
           const angle = i * (360 / 14) * (Math.PI / 180);
-          const x = center + 150 * Math.cos(angle);
-          const y = center + 150 * Math.sin(angle);
+          const x = center + 225 * Math.cos(angle);
+          const y = center + 225 * Math.sin(angle);
           return (
             <circle
               key={i}
               cx={x}
               cy={y}
-              r="4"
+              r="5"
               fill="white"
               stroke="#d1d5db"
               strokeWidth="1"
@@ -133,12 +142,14 @@ const SpinPage = () => {
   return (
     <div className="min-h-screen">
       <Header />
-      <div className="mx-auto max-w-sm sm:max-w-md md:max-w-2xl lg:max-w-7xl bg-white rounded-2xl shadow-sm -translate-y-10 z-10 p-6">
-        <h1>Spin Wheel</h1>
-        <div className="p-8">
-          <div className="relative flex flex-col items-center">
+      <div className="mx-auto w-full max-w-7xl bg-white rounded-2xl shadow-sm -translate-y-10 z-10 p-2 sm:p-6">
+        <div className="mb-4 ">
+          <h1 className="text-xl sm:text-3xl font-bold">Spin Wheel</h1>
+        </div>
+        <div className="p-2 sm:p-8">
+          <div className="relative ">
             {/* Category Dropdown - top right */}
-            <div className="absolute right-0 top-0 z-20 w-[220px]">
+            <div className="w-full max-w-xs mb-4 sm:absolute sm:right-2 sm:top-2 sm:z-20 sm:w-[90vw] sm:max-w-xs sm:mb-0">
               <label className="block mb-2 font-medium text-gray-700">
                 Select Task Category
               </label>
@@ -221,49 +232,56 @@ const SpinPage = () => {
               </div>
             </div>
             {/* Spin Wheel */}
-            <div className="relative mb-8 mt-8">
-              <div
-                className="transition-transform duration-[3000ms] ease-out"
-                style={{
-                  transform: `rotate(${rotation}deg)`,
-                  transition: isSpinning
-                    ? "transform 3s cubic-bezier(0.23, 1, 0.32, 1)"
-                    : "none",
-                }}
-              >
-                {renderWheel()}
-              </div>
-              {/* Pointer at top center */}
-              <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 z-10">
-                <div className="w-0 h-0 border-l-[18px] border-r-[18px] border-t-[36px] border-l-transparent border-r-transparent border-t-green-500"></div>
+            <div className="w-full flex justify-center">
+              <div className="relative w-full max-w-[95vw] sm:max-w-[500px] aspect-square">
+                <div
+                  className="transition-transform duration-[3000ms] ease-out w-full h-full"
+                  style={{
+                    transform: `rotate(${rotation}deg)`,
+                    transition: isSpinning
+                      ? "transform 3s cubic-bezier(0.23, 1, 0.32, 1)"
+                      : "none",
+                  }}
+                >
+                  <svg
+                    width="100%"
+                    height="100%"
+                    viewBox="0 0 500 500"
+                    className="drop-shadow-lg"
+                    preserveAspectRatio="xMidYMid meet"
+                  >
+                    {renderWheel()}
+                  </svg>
+                </div>
+                {/* Pointer at bottom center */}
+                <div className="absolute bottom-2 md:-bottom-3 left-1/2 transform -translate-x-1/2 z-10">
+                  <div className="w-0 h-0 border-l-[20px] border-r-[20px] border-b-[40px] md:border-l-[30px] md:border-r-[30px] md:border-b-[68px] border-l-transparent border-r-transparent border-b-teal-500"></div>
+                </div>
               </div>
             </div>
-            <p className="text-gray-600 mb-6 text-lg">
+            <p className="text-gray-600 m-6 font-bold md:text-lg text-center">
               Spin Wheel to pick your task
             </p>
-            <div className="flex gap-4">
+            <div className="flex flex-col sm:flex-row gap-2 md:gap-4 w-full justify-center">
               <button
                 onClick={handleSpin}
                 disabled={isSpinning}
-                className="bg-green-500 hover:bg-green-600 text-white px-8 py-3 text-lg font-medium flex items-center gap-2 rounded-lg"
+                className="bg-teal-500 hover:bg-teal-600 text-black px-4 md:px-8 py-3 text-lg font-medium flex items-center gap-2 rounded-lg justify-center"
               >
                 {isSpinning ? "Spinning..." : "Spin"}
-                <span role="img" aria-label="dice">
-                  🎲
-                </span>
+                <img
+                  src={spinnerIcon}
+                  alt="Spinner Icon"
+                  className="filter invert"
+                />
               </button>
               <button
                 onClick={() => navigate("/dashboard")}
-                className="bg-blue-500 hover:bg-blue-600 text-white px-8 py-3 text-lg font-medium flex items-center gap-2 rounded-lg"
+                className="bg-teal-500 hover:bg-teal-600 text-black  px-4 md:px-8 py-3 text-lg font-medium flex items-center gap-2 rounded-lg justify-center"
               >
                 Go to Task
               </button>
             </div>
-            {result && (
-              <div className="mt-6 text-lg font-semibold text-teal-700">
-                Result: <span className="font-bold">{result}</span>
-              </div>
-            )}
           </div>
         </div>
       </div>

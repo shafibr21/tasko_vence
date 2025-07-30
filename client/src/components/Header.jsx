@@ -5,6 +5,7 @@ import { useAuth } from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import taskIcon from "../assets/nav_task.svg";
 import spinnerIcon from "../assets/spinner.svg";
+import profileIcon from "../assets/profile_image.svg";
 const Header = () => {
   const { user, logout } = useAuth();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -86,15 +87,21 @@ const Header = () => {
                 {/* User Avatar/Name Button */}
                 <button
                   onClick={toggleDropdown}
-                  className="flex items-center space-x-2 text-white border rounded-2xl border-teal-700 px-4 py-2 hover:bg-teal-700 hover:bg-opacity-20 transition-colors duration-200"
+                  className="flex items-center space-x-2 text-white"
                 >
+                  {/* User Avatar */}
+                  <img
+                    src={profileIcon}
+                    alt="User Avatar"
+                    className="w-7 h-7 rounded-full"
+                  />
                   <span>{user.name}</span>
                   {/* Dropdown Arrow */}
                   <svg
-                    className={`w-4 h-4 transition-transform duration-200 ${
+                    className={`w-3 h-3 transition-transform duration-200 ${
                       isDropdownOpen ? "rotate-180" : ""
                     }`}
-                    fill="none"
+                    fill="green"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
                   >
@@ -109,7 +116,7 @@ const Header = () => {
 
                 {/* Dropdown Menu */}
                 {isDropdownOpen && (
-                  <div className="absolute top-full right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                  <div className="absolute top-full right-0 mt-2 w-35 bg-white rounded-md shadow-lg py-1 z-50">
                     {/* View Profile Option */}
                     <button
                       onClick={handleViewProfile}

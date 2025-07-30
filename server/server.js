@@ -2,9 +2,7 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import "dotenv/config";
-import { connect } from "mongoose";
 import connectDB from "./config/mongodb.js";
-// import connectCLoudinary from "./config/cloudinary.js"; // Commented out since not using cloudinary
 import userRouter from "./routes/userRoute.js";
 import taskRouter from "./routes/taskRoute.js";
 
@@ -13,14 +11,14 @@ const frontend = process.env.FRONTEND_URL;
 const app = express();
 const port = process.env.PORT || 4000;
 connectDB();
-// connectCLoudinary(); // Commented out since not using cloudinary
+
 
 //Middlewares
 app.use(express.json());
 app.use(
   cors({
-    origin: frontend, // Your frontend URL
-    credentials: true, // Allow credentials (cookies, authorization headers, etc.)
+    origin: frontend,
+    credentials: true, 
   })
 );
 app.use(cookieParser());

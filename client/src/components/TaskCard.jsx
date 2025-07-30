@@ -2,6 +2,7 @@ import React from "react";
 import { MdDelete } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import calenderIcon from "../assets/calendar-edit.svg";
+import taskIcon from "../assets/task_pic.svg";
 
 const TaskCard = ({ task, onDelete }) => {
   const navigate = useNavigate();
@@ -62,22 +63,20 @@ const TaskCard = ({ task, onDelete }) => {
         {/* Header with title and delete icon */}
         <div className="flex items-start justify-between mb-2">
           <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-              <span className="text-green-600 text-sm font-medium">
-                {task.category?.charAt(0) || "T"}
-              </span>
+            <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+              <img src={taskIcon} alt="Task Icon" className="w-12 h-12" />
             </div>
             <div>
               <h3 className="text-lg font-semibold text-gray-800 line-clamp-1">
                 {task.title}
               </h3>
-              <p className="text-sm text-gray-600 mt-1">
+              <p className="text-sm text-gray-400 mt-1">
                 {task.type} • {task.category}
               </p>
             </div>
           </div>
           <button
-            className="text-red-500 hover:text-red-700 p-1 rounded-full transition-colors"
+            className="text-red-400 hover:text-red-600 p-1 rounded-full transition-colors"
             title="Delete Task"
             onClick={(e) => {
               e.stopPropagation();
@@ -89,9 +88,11 @@ const TaskCard = ({ task, onDelete }) => {
         </div>
 
         {/* Description */}
-        <p className="text-gray-600 text-sm mb-3 line-clamp-2">
-          {task.description}
-        </p>
+        <div className="ml-15">
+          <p className="text-gray-800 text-sm mb-3 line-clamp-2">
+            {task.description}
+          </p>
+        </div>
 
         {/* Date and Status at bottom */}
         <div className="flex items-end justify-between mt-auto">

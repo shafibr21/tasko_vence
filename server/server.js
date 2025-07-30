@@ -17,7 +17,7 @@ connectDB();
 app.use(express.json());
 app.use(
   cors({
-    origin: frontend,
+    origin: "https://tasko-vence.vercel.app" || frontend, // Your frontend URL
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"], 
   })

@@ -7,6 +7,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import NotFound from "./pages/NotFound";
 import ProfilePage from "./pages/ProfilePage";
 import TaskModal from "./components/TaskModal";
+import SpinPage from "./pages/SpinPage";
 
 function App() {
   return (
@@ -43,6 +44,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <TaskModal />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/spin"
+            element={
+              <ProtectedRoute>
+                <SpinPage />
               </ProtectedRoute>
             }
           />

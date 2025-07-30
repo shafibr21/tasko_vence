@@ -1,7 +1,9 @@
 import React from "react";
+import { MdDelete } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import calenderIcon from "../assets/calendar-edit.svg";
 
-const TaskCard = ({ task }) => {
+const TaskCard = ({ task, onDelete }) => {
   const navigate = useNavigate();
 
   const handleCardClick = () => {
@@ -24,12 +26,12 @@ const TaskCard = ({ task }) => {
     switch (status?.toLowerCase()) {
       case "pending":
         return "text-pink-500 bg-pink-50";
-      case "in progress":
+      case "ongoing":
+        return "text-orange-500 bg-orange-50";
+      case "collaborative task":
         return "text-blue-500 bg-blue-50";
-      case "completed":
-        return "text-green-500 bg-green-50";
       default:
-        return "text-gray-500 bg-gray-50";
+        return "text-green-500 bg-green-50";
     }
   };
 
@@ -56,8 +58,8 @@ const TaskCard = ({ task }) => {
         task.category
       )}`}
     >
-      <div className="p-4">
-        {/* Header with title and status */}
+      <div className="p-4 flex flex-col h-full justify-between">
+        {/* Header with title and delete icon */}
         <div className="flex items-start justify-between mb-2">
           <div className="flex items-center space-x-3">
             <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
@@ -74,14 +76,16 @@ const TaskCard = ({ task }) => {
               </p>
             </div>
           </div>
-
-          <span
-            className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(
-              task.status
-            )}`}
+          <button
+            className="text-red-500 hover:text-red-700 p-1 rounded-full transition-colors"
+            title="Delete Task"
+            onClick={(e) => {
+              e.stopPropagation();
+              if (onDelete) onDelete(task._id);
+            }}
           >
-            • {task.status}
-          </span>
+            <MdDelete size={22} />
+          </button>
         </div>
 
         {/* Description */}
@@ -89,9 +93,25 @@ const TaskCard = ({ task }) => {
           {task.description}
         </p>
 
-        {/* Date */}
-        <div className="text-sm text-gray-500">
-          <span className="font-medium">Due:</span> {formatDate(task.dueDate)}
+        {/* Date and Status at bottom */}
+        <div className="flex items-end justify-between mt-auto">
+          <div className="flex items-center gap-1 text-sm text-gray-500">
+            <div className="m-1">
+              <img
+                src={calenderIcon}
+                alt="Calendar"
+                className="w-5 h-5 mx-auto"
+              />
+            </div>
+            {formatDate(task.dueDate)}
+          </div>
+          <span
+            className={`px-2 py-1 rounded-full text-xs font-bold ${getStatusColor(
+              task.status
+            )}`}
+          >
+            • {task.status}
+          </span>
         </div>
       </div>
     </div>

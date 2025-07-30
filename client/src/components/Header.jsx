@@ -62,7 +62,9 @@ const Header = () => {
           <ul className="hidden md:flex items-center text-teal-400 font-medium space-x-6">
             <div>
               <img src={taskIcon} alt="Task Icon" className="inline-block " />
-              <li className="inline-block mr-4 ml-2 text-white hover:text-teal-400 cursor-pointer">
+              <li className="inline-block mr-4 ml-2 text-white hover:text-teal-400 cursor-pointer"
+              onClick={() => navigate("/dashboard")}
+              >
                 Task List
               </li>
             </div>
